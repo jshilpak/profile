@@ -1,0 +1,489 @@
+<html>
+ <head>
+  <title>Profile Page</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #1e1e1e; /* Dark background */
+      color: #f5f5f5; /* Light text for readability */
+      line-height: 1.6;
+    }
+
+    .header {
+      background: linear-gradient(to bottom, #2c3e50, #34495e); /* Darker blue gradient */
+      text-align: center;
+      padding: 30px 10px;
+      color: white;
+      max-width: 95%; /* Increased width */
+      margin: 0 auto;
+      border-radius: 10px; /* Rounded corners for consistency */
+    }
+
+    .header img {
+      border-radius: 50%;
+      width: 120px;
+      height: 120px;
+      border: 5px solid white;
+      transition: transform 0.3s ease; /* Smooth zoom effect */
+      cursor: pointer;
+    }
+
+    .header img:hover {
+      transform: scale(1.2); /* Zoom effect on hover */
+    }
+
+    .view-pane {
+      display: none; /* Hidden by default */
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .view-pane img {
+      max-width: 90%;
+      max-height: 90%;
+      border: 5px solid white;
+      border-radius: 10px;
+    }
+
+    .view-pane .close-btn {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 30px;
+      color: white;
+      cursor: pointer;
+      background: none;
+      border: none;
+    }
+
+    .view-pane .close-btn:hover {
+      color: #ff6347; /* Tomato color for hover */
+    }
+
+    .nav {
+      background-color: #2c3e50; /* Darker blue for the menu */
+      padding: 10px 0;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      position: sticky;
+      top: 0;
+      width: 100%;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .menu-links {
+      display: inline-flex;
+      gap: 15px;
+    }
+
+    .nav a {
+      text-decoration: none;
+      color: #f5f5f5; /* Light text for dark background */
+      font-weight: 600;
+      padding: 10px 15px;
+      border-radius: 20px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      color: white;
+    }
+
+    .hamburger {
+      display: none;
+      font-size: 24px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 600px) {
+      .menu-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        background-color: #2c3e50;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        padding: 10px 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      }
+
+      .menu-links.show {
+        display: flex;
+      }
+
+      .hamburger {
+        display: block;
+      }
+    }
+
+    .content {
+      text-align: justify;
+      padding: 40px;
+      max-width: 95%; /* Increased width */
+      margin: 20px auto; /* Center the content */
+      color: #f5f5f5; /* Light text for readability */
+      background: #2c3e50; /* Default background for sections */
+      border-radius: 10px; /* Rounded corners */
+    }
+
+    .content h1 {
+      font-size: 28px;
+      color: #ffffff; /* Clear white heading color */
+      margin-bottom: 20px;
+      font-weight: 700;
+    }
+
+    .content h2 {
+      font-size: 20px;
+      color: #ffffff; /* Clear white heading color */
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .content ul {
+      list-style-type: disc;
+      padding-left: 20px;
+      margin-bottom: 20px;
+    }
+
+    .content ul li {
+      margin-bottom: 10px;
+    }
+
+    /* Section-specific background colors with fade effect */
+    #home {
+      background: linear-gradient(to right, #3498db, #2980b9); /* New blue gradient */
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #teaching {
+      background: linear-gradient(to right, #e67e22, #d35400); /* New orange gradient */
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #education {
+      background: linear-gradient(to right, #1f618d, #154360);
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #research {
+      background: linear-gradient(to right, #117864, #0b5345);
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #lab {
+      background: linear-gradient(to right, #ff6347, #e74c3c); /* Tomato gradient */
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #awards {
+      background: linear-gradient(to right, #7d3c98, #512e5f);
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #wisdom {
+      background: linear-gradient(to right, #b9770e, #7e5109);
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #cv {
+      background: linear-gradient(to right, #839192, #566573);
+      color: #ffffff; /* White text for contrast */
+    }
+
+    #contact {
+      background: linear-gradient(to right, #8e44ad, #6c3483); /* Purple gradient */
+      color: #ffffff; /* White text for contrast */
+    }
+
+    /* Hover and active menu colors matching section backgrounds */
+    .nav a[href="#home"]:hover,
+    .nav a[href="#home"].active {
+      background-color: #2980b9; /* Match Home section background */
+    }
+
+    .nav a[href="#teaching"]:hover,
+    .nav a[href="#teaching"].active {
+      background-color: #d35400;
+    }
+
+    .nav a[href="#education"]:hover,
+    .nav a[href="#education"].active {
+      background-color: #154360;
+    }
+
+    .nav a[href="#research"]:hover,
+    .nav a[href="#research"].active {
+      background-color: #0b5345;
+    }
+
+    .nav a[href="#lab"]:hover,
+    .nav a[href="#lab"].active {
+      background-color: #e74c3c; /* Match Lab section background */
+    }
+
+    .nav a[href="#awards"]:hover,
+    .nav a[href="#awards"].active {
+      background-color: #512e5f;
+    }
+
+    .nav a[href="#wisdom"]:hover,
+    .nav a[href="#wisdom"].active {
+      background-color: #7e5109;
+    }
+
+    .nav a[href="#cv"]:hover,
+    .nav a[href="#cv"].active {
+      background-color: #566573;
+    }
+
+    .nav a[href="#contact"]:hover,
+    .nav a[href="#contact"].active {
+      background-color: #6c3483; /* Match Contact section background */
+    }
+
+    .footer {
+      background: linear-gradient(to bottom, #2c3e50, #34495e); /* Darker blue gradient */
+      text-align: center;
+      padding: 15px 10px;
+      color: white;
+      font-size: 12px;
+      max-width: 95%; /* Increased width */
+      margin: 0 auto; /* Center the footer */
+      border-radius: 10px; /* Rounded corners */
+    }
+  </style>
+ </head>
+ <body>
+  <div class="header">
+    <img
+      id="profile-image"
+      alt="Profile picture of Jaya Sundar Shilpakar"
+      src="jayass.jpg"
+    />
+    <h1>Jaya Sundar Shilpakar, Lecturer</h1>
+    <h2>Department of Computer Science | St. Xavier's College</h2>
+  </div>
+
+  <!-- View Pane for Image -->
+  <div class="view-pane" id="view-pane">
+    <button class="close-btn" id="close-btn">&times;</button>
+    <img id="view-image" src="jayass.jpg" alt="Profile picture of Jaya Sundar Shilpakar" />
+  </div>
+
+  <div class="nav">
+    <div class="menu">
+      <span class="hamburger" onclick="toggleMenu()">☰</span>
+      <div class="menu-links">
+        <a class="active" href="#home">Home</a>
+        <a href="#teaching">Teaching</a>
+        <a href="#education">Education</a>
+        <a href="#research">Research</a>
+        <a href="#lab">Lab</a>
+        <a href="#awards">Awards</a>
+        <a href="#wisdom">Wisdom</a>
+        <a href="#cv">CV</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" id="home">
+    <h1>Home</h1>
+    <p>Hello! My name is Jaya Sundar Shilpakar and I'm a Lecturer in the Department of Computer Science at St. Xavier's College.</p>
+    <p>I have a passion for computer science, and I strive to inspire my students to develop a deep understanding and appreciation for the technology. My research interests include modern Artificial Intelligence, Information Security, and the impact of technology on research.</p>
+    <p>In addition to my teaching responsibilities, I am actively involved in various academic committees and initiatives aimed at improving the quality of education and fostering a collaborative learning environment. I have published numerous articles and papers in reputable journals and have presented my research at national and international conferences.</p>
+    <p>Outside of academia, I enjoy reading, and spending time with people with good hearts. I believe in the importance of lifelong learning and continuously seek opportunities to expand my knowledge and skills.</p>
+  </div>
+
+  <div class="content" id="teaching">
+    <h1>Teaching</h1>
+    <h2>Lecturer, St. Xavier's College, Maitighar, Kathmandu (2023-Present)</h2>
+    <ul>
+      <li>IT 231 - Foundation of Information Technology (FIT)</li>
+      <li>4281 - Computer Science</li>
+      <li>4271 - Computer Science</li>
+      <li>Non-credit Course: Technical Writing</li>
+    </ul>
+    <h2>Lecturer, Khwopa Secondary School, Dekocha, Bhaktapur (2022-2023)</h2>
+    <ul>
+      <li>4281 - Computer Science</li>
+      <li>4271 - Computer Science</li>
+    </ul>
+    <h2>Teaching Assistant, Nepal Jesuit Social Institute, Kupondole, Lalitpur (2021)</h2>
+    <ul>
+      <li>Non-credit Course: Application Software</li>
+      <li>Non-credit Course: Intellectual Property Rights</li>
+    </ul>
+    <h2>Undergraduate Teaching Assistant, St. Xavier's College, Maitighar, Kathmandu (2020)</h2>
+    <ul>
+      <li>IT 216 - Java Programming</li>
+      <li>IT 223 - Advanced Internetworking</li>
+    </ul>
+    <h2>Visiting Teacher, Shree Kalika Saran Aadharbhut School, Sindhupalchowk (2019)</h2>
+    <ul>
+      <li>Non-credit Course: Career Counseling</li>
+    </ul>
+  </div>
+
+  <div class="content" id="education">
+    <h1>Education</h1>
+    <h2>Stevens Institute of Technology, Hoboken, New Jersey (2025 - 2027)</h2>
+    <h3>Master of Science in Computer Science</h3>
+    <p>Status: Incoming International Student</p>
+    <p>Email: jshilpak@stevens.edu </p>
+    <br>
+    <h2>St. Xavier's College, Maitighar, Kathmandu (2017 - 2021)</h2>
+    <p><b>(Affiliated With Tribhuvan University) </b></p>
+    <h3>Bachelor in Information Management</h3>
+    <p><b>Cumulative GPA:</b> 3.4/4.0</p>
+    <p><b>Highlighted Courses:</b> Artificial Intelligence, Data Mining, Software Engineering, Probability & Discrete Mathematics</p>
+    <p><b>Advisors:</b> Er. Sanjay Kumar Yadav, Er. Rajan Karmacharya, Asst. Prof. Bal Krishna Subedi</p>
+  </div>
+
+  <div class="content" id="research">
+    <h1>Research</h1>
+    <h2>Publications</h2>
+    <p>In submission at Research Annals of Xavier’s Nepal, 2024: "Analysis of Security Information in an Organization". Karmacharya, R.*, Shilpakar, J.S.</p>
+    <p>Karmacharya, R.*, Shilpakar, J.S. (2022). "Impact of Social Media on Consumer Buying Behaviour". Research Annals of Xavier’s Nepal, 4(4.0), 10-18. ISSN: 2705-456x.</p>
+    <h2>Student Researcher, Network and Security Project</h2>
+    <p>Advisor: Er. Rajan Karmacharya</p>
+    <p>Devised integrated modules for processing the security details of devices and applications in an organizational setting.</p>
+    <h2>Undergraduate Research Assistant, St. Xavier’s College</h2>
+    <p>Advisor: Er. Sanjay Kumar Yadav</p>
+    <p>Researching mobile cell towers for network boost considering the issues of fixed cell towers in various situations.</p>
+  </div>
+
+  <div class="content" id="lab">
+    <h1>Lab</h1>
+    <p>The lab is equipped with state-of-the-art technology to support research and learning in computer science. Students and researchers have access to high-performance computing systems, networking equipment, and software tools to work on projects related to Artificial Intelligence, Cybersecurity, and Data Science.</p>
+    <p>The lab is operated by <b>St. Xavier's College Computer Club [SXC3]</b>.</p>
+    
+    <p><b>Club Moderator:</b> Jaya Sundar Shilpakar</p>
+    <p><b>Club Meeting:</b> Friday, 10:30 AM - 12:15 PM</p>
+    
+    <p><b>Sub-Houses:</b></p>
+    <ul>
+      <li>Web Development House</li>
+      <li>Game Development House</li>
+      <li>Data Science House</li>
+      <li>Graphics Designing House</li>
+    </ul>
+    <p><b>Club Official Sites:</b></p>
+    
+    <ul>
+
+    <li><a href="https://www.facebook.com/sxc.computerclub/" target="_blank" style="color: #ffffff;">SXC3 Facebook</a></li>
+    <li><a href="https://sxc-computer-club-sx3c.github.io/SX3C_website/" target="_blank" style="color: #ffffff;">SXC3 First Website</a></li>    
+    </ul>
+ </div>
+
+  <div class="content" id="awards">
+    <h1>Awards</h1>
+    <h3><b>Fr. Martin P. Coyne, S.J. Memorial Award for Outstanding Moral Uprightness - </b>St. Xavier's College</h3>
+    <h3><b>Merit Scholarship - </b>Tribhuvan University</h3>
+    <h3><b>Academic Scholarship - </b>Bhaktapur Municipality</h3>
+  </div>
+
+  <div class="content" id="wisdom">
+    <h1>Wisdom</h1>
+    <p>"Surviving is important but thriving is elegant." - Maya Angelou</p>
+  </div>
+
+  <div class="content" id="cv">
+    <h1>CV</h1>
+    <p>Download my CV <a href="#">here</a>.</p>
+  </div>
+
+  <div class="content" id="contact">
+    <h1>Contact</h1>
+    <p><b>Email:</b> shilpakarjayasundar@sxc.edu.np</p>
+    <p><b>Phone:</b> +977-9861550645</p>
+    <p><b>Office Hours:</b> Sunday to Friday, 9:30 AM - 4:30 PM</p>
+    <p><b>Social Media:</b></p>
+    <ul>
+      <li><a href="https://www.facebook.com" target="_blank" style="color: #ffffff;">Facebook</a></li>
+      <li><a href="https://www.twitter.com" target="_blank" style="color: #ffffff;">Twitter</a></li>
+      <li><a href="https://www.linkedin.com" target="_blank" style="color: #ffffff;">LinkedIn</a></li>
+    </ul>
+    <p><b>Official College Email:</b> ktm@sxc.edu.np</p>
+    <p><b>Official College Website: </b><a href="https://www.sxc.edu.np" target="_blank">ST. XAVIER'S COLLEGE</a></p>
+  </div>
+
+  <div class="footer">
+    &copy; 2024 Jaya Sundar Shilpakar. All rights reserved.
+  </div>
+
+  <script>
+    function toggleMenu() {
+      const menuLinks = document.querySelector('.menu-links');
+      menuLinks.classList.toggle('show');
+    }
+
+    // Get all navigation links and sections
+    const navLinks = document.querySelectorAll('.nav a');
+    const sections = document.querySelectorAll('.content');
+
+    // Function to update active menu item based on scroll position
+    function updateActiveMenu() {
+      let currentSection = '';
+
+      // Loop through sections to find the one currently in view
+      sections.forEach(section => {
+        const sectionTop = section.offsetTop;
+        const sectionHeight = section.offsetHeight;
+        if (window.scrollY >= sectionTop - sectionHeight / 3) {
+          currentSection = section.getAttribute('id');
+        }
+      });
+
+      // Update active class on menu items
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href').substring(1) === currentSection) {
+          link.classList.add('active');
+        }
+      });
+    }
+
+    // Add scroll event listener
+    window.addEventListener('scroll', updateActiveMenu);
+
+    // Get elements
+    const profileImage = document.getElementById('profile-image');
+    const viewPane = document.getElementById('view-pane');
+    const closeBtn = document.getElementById('close-btn');
+
+    // Open image in view pane
+    profileImage.addEventListener('click', () => {
+      viewPane.style.display = 'flex';
+    });
+
+    // Close the view pane
+    closeBtn.addEventListener('click', () => {
+      viewPane.style.display = 'none';
+    });
+
+    // Close the view pane when clicking outside the image
+    viewPane.addEventListener('click', (e) => {
+      if (e.target === viewPane) {
+        viewPane.style.display = 'none';
+      }
+    });
+  </script>
+ </body>
+</html>
